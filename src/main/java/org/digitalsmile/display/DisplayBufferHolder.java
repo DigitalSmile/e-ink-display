@@ -1,6 +1,5 @@
 package org.digitalsmile.display;
 
-import org.digitalsmile.display.color.DisplayColors;
 import org.digitalsmile.display.color.DisplayLayer;
 
 import java.util.HashMap;

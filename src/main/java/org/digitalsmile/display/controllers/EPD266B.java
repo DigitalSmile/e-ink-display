@@ -2,7 +2,6 @@ package org.digitalsmile.display.controllers;
 
 import org.digitalsmile.display.DisplayType;
 import org.digitalsmile.display.DisplayBufferHolder;
-import org.digitalsmile.display.color.DisplayColors;
 import org.digitalsmile.display.color.DisplayLayer;
 import org.digitalsmile.gpio.GPIOBoard;
 import org.digitalsmile.gpio.core.IntegerToHex;
@@ -26,7 +25,7 @@ public class EPD266B implements WaveShareDisplay {
     private static final Logger logger = LoggerFactory.getLogger(EPD266B.class);
 
     private static final DisplayType DISPLAY_TYPE = new DisplayType("2.66inch Module (B)",
-                                                             new DisplayColors[]{DisplayColors.BLACK, DisplayColors.WHITE, DisplayColors.RED}, 152, 296);
+                                                             new DisplayLayer[]{DisplayLayer.BLACK_AND_WHITE, DisplayLayer.RED_AND_WHITE}, 152, 296);
     private static final int WIDTH = DISPLAY_TYPE.width();
     private static final int HEIGHT = DISPLAY_TYPE.height();
 

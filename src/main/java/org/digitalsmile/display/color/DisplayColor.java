@@ -1,12 +1,12 @@
 package org.digitalsmile.display.color;
 
-public enum DisplayColors {
+public enum DisplayColor {
     BLACK(0x000000),
     WHITE(0xffffff),
     RED(0xff0000);
 
     private final int colorCode;
-    DisplayColors(int colorCode) {
+    DisplayColor(int colorCode) {
         this.colorCode = colorCode;
     }
 
