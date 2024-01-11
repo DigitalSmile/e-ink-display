@@ -1,5 +1,6 @@
 package org.digitalsmile.display.color;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public enum DisplayLayer {
@@ -18,7 +19,7 @@ public enum DisplayLayer {
     }
 
     public DisplayColor[] getAvailableColors() {
-        var allColors = Arrays.asList(availableColors);
+        var allColors = new ArrayList<>(Arrays.asList(availableColors));
         allColors.add(drawColor);
         return allColors.toArray(DisplayColor[]::new);
     }
