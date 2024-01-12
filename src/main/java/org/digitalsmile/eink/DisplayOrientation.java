@@ -1,32 +1,31 @@
-package org.digitalsmile.display;
+package org.digitalsmile.eink;
 
 public enum DisplayOrientation {
     /**
-     *  +---------------+
-     *  | ↓→            | ====
-     *  |               | wires
-     *  |               | ====
-     *  +---------------+
-     *
+     * +---------------+
+     * | ↓→            | ====
+     * |               | wires
+     * |               | ====
+     * +---------------+
      */
     HORIZONTAL_NORMAL(270),
 
     /**
-     *    ||     ||
-     *    ||wires||
-     *  +-----------+
-     *  | ↓→        |
-     *  |           |
-     *  |           |
-     *  |           |
-     *  |           |
-     *  |           |
-     *  +-----------+
-     *
+     * ||     ||
+     * ||wires||
+     * +-----------+
+     * | ↓→        |
+     * |           |
+     * |           |
+     * |           |
+     * |           |
+     * |           |
+     * +-----------+
      */
     VERTICAL_NORMAL(0);
 
     private final int rotation;
+
     DisplayOrientation(int rotation) {
         this.rotation = rotation;
     }

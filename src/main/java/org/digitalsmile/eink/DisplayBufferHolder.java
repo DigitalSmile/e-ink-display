@@ -1,6 +1,6 @@
-package org.digitalsmile.display;
+package org.digitalsmile.eink;
 
-import org.digitalsmile.display.color.DisplayLayer;
+import org.digitalsmile.eink.color.DisplayLayer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +8,8 @@ import java.util.Map;
 public final class DisplayBufferHolder {
     private final Map<DisplayLayer, byte[]> bufferMap = new HashMap<>();
 
-    private DisplayBufferHolder(){}
+    private DisplayBufferHolder() {
+    }
 
     public void put(DisplayLayer layer, byte[] byteBuffer) {
         bufferMap.put(layer, byteBuffer);
@@ -23,13 +24,14 @@ public final class DisplayBufferHolder {
     }
 
     public static DisplayBufferHolderBuilder builder() {
-       return new DisplayBufferHolderBuilder();
+        return new DisplayBufferHolderBuilder();
     }
 
     public static class DisplayBufferHolderBuilder {
         private final DisplayBufferHolder displayBufferHolder = new DisplayBufferHolder();
 
-        private DisplayBufferHolderBuilder(){}
+        private DisplayBufferHolderBuilder() {
+        }
 
         public DisplayBufferHolderBuilder add(DisplayLayer layer, byte[] byteBuffer) {
             displayBufferHolder.put(layer, byteBuffer);

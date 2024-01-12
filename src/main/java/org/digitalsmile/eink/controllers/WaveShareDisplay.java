@@ -1,7 +1,7 @@
-package org.digitalsmile.display.controllers;
+package org.digitalsmile.eink.controllers;
 
-import org.digitalsmile.display.DisplayType;
-import org.digitalsmile.display.DisplayBufferHolder;
+import org.digitalsmile.eink.DisplayType;
+import org.digitalsmile.eink.DisplayBufferHolder;
 
 import java.io.IOException;
 

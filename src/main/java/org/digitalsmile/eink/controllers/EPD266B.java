@@ -1,8 +1,10 @@
-package org.digitalsmile.display.controllers;
+package org.digitalsmile.eink.controllers;
 
-import org.digitalsmile.display.DisplayType;
-import org.digitalsmile.display.DisplayBufferHolder;
-import org.digitalsmile.display.color.DisplayLayer;
+import org.digitalsmile.eink.DisplayType;
+import org.digitalsmile.eink.DisplayBufferHolder;
+import org.digitalsmile.eink.color.DisplayColor;
+import org.digitalsmile.eink.color.DisplayColorLayout;
+import org.digitalsmile.eink.color.DisplayLayer;
 import org.digitalsmile.gpio.GPIOBoard;
 import org.digitalsmile.gpio.core.IntegerToHex;
 import org.digitalsmile.gpio.pin.Pin;
@@ -20,12 +22,29 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class EPD266B implements WaveShareDisplay {
     private static final Logger logger = LoggerFactory.getLogger(EPD266B.class);
 
     private static final DisplayType DISPLAY_TYPE = new DisplayType("2.66inch Module (B)",
-                                                             new DisplayLayer[]{DisplayLayer.BLACK_AND_WHITE, DisplayLayer.RED_AND_WHITE}, 152, 296);
+            new DisplayLayer[]{DisplayLayer.BLACK_AND_WHITE, DisplayLayer.RED_AND_WHITE},
+            152, 296,
+            Map.of(
+                    DisplayColor.BLACK, Map.of(
+                            DisplayColorLayout.FOREGROUND, (byte) 0xf0,
+                            DisplayColorLayout.BACKGROUND, (byte) 0x0f
+                    ),
+                    DisplayColor.RED, Map.of(
+                            DisplayColorLayout.FOREGROUND, (byte) 0x0f,
+                            DisplayColorLayout.BACKGROUND, (byte) 0xf0
+                    )
+            ),
+            Map.of(
+                    DisplayLayer.BLACK_AND_WHITE, DisplayColor.RED,
+                    DisplayLayer.RED_AND_WHITE, DisplayColor.BLACK
+            ));
+
     private static final int WIDTH = DISPLAY_TYPE.width();
     private static final int HEIGHT = DISPLAY_TYPE.height();
 
