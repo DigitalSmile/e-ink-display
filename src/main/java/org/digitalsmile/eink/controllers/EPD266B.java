@@ -7,11 +7,12 @@ import org.digitalsmile.eink.color.DisplayColorLayout;
 import org.digitalsmile.eink.color.DisplayLayer;
 import org.digitalsmile.gpio.GPIOBoard;
 import org.digitalsmile.gpio.core.IntegerToHex;
+import org.digitalsmile.gpio.core.exception.NativeException;
 import org.digitalsmile.gpio.pin.Pin;
 import org.digitalsmile.gpio.pin.attributes.Direction;
 import org.digitalsmile.gpio.pin.attributes.State;
 import org.digitalsmile.gpio.spi.SPIBus;
-import org.digitalsmile.gpio.spi.SPIMode;
+import org.digitalsmile.gpio.spi.attributes.Mode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,8 +58,8 @@ public class EPD266B implements WaveShareDisplay {
 
     private final SPIBus spiBus;
 
-    public EPD266B() throws IOException {
-        this.spiBus = GPIOBoard.ofSPI(0, SPIMode.MODE_0, 20_000_000);
+    public EPD266B() throws NativeException {
+        this.spiBus = GPIOBoard.ofSPI(0, Mode.MODE_0, 20_000_000);
 
         this.rst = GPIOBoard.ofPin(17, Direction.OUTPUT);
         this.busy = GPIOBoard.ofPin(24, Direction.INPUT);
@@ -78,7 +79,7 @@ public class EPD266B implements WaveShareDisplay {
     }
 
     @Override
-    public void initialize() throws IOException, InterruptedException {
+    public void initialize() throws IOException, InterruptedException, NativeException {
         logger.info("Initializing display - {}}...", DISPLAY_TYPE.name());
         logger.debug("Set Power On");
         var timeStart = Instant.now();
@@ -122,7 +123,7 @@ public class EPD266B implements WaveShareDisplay {
     }
 
     @Override
-    public void hardReset() throws IOException, InterruptedException {
+    public void hardReset() throws IOException, InterruptedException, NativeException {
         var timeStart = Instant.now();
         /*
           Hard reset the chip.
@@ -142,7 +143,7 @@ public class EPD266B implements WaveShareDisplay {
     }
 
     @Override
-    public void softReset() throws IOException {
+    public void softReset() throws NativeException {
         var timeStart = Instant.now();
         sendCommand(Command.SOFT_RESET.getCommand());
         busyWait();
@@ -151,14 +152,14 @@ public class EPD266B implements WaveShareDisplay {
     }
 
     @Override
-    public void sleep() throws IOException {
+    public void sleep() throws IOException, NativeException {
         logger.info("Going to deep sleep mode...");
         sendCommand(Command.SLEEP.getCommand());
         sendData(0x01);
     }
 
     @Override
-    public void busyWait() throws IOException {
+    public void busyWait() throws NativeException {
         logger.debug("Busy...");
         var timeStart = Instant.now();
         while (busy.read().equals(State.HIGH)) {
@@ -170,7 +171,7 @@ public class EPD266B implements WaveShareDisplay {
     }
 
     @Override
-    public void powerOff() throws IOException {
+    public void powerOff() throws NativeException {
         pwr.write(State.LOW);
         dc.write(State.LOW);
         rst.write(State.LOW);
@@ -178,7 +179,7 @@ public class EPD266B implements WaveShareDisplay {
     }
 
     @Override
-    public void sendCommand(int command) throws IOException {
+    public void sendCommand(int command) throws NativeException {
         logger.debug("Send command {}", Command.getCommandByCode(command));
         dc.write(State.LOW);
         spiBus.sendByteData(ByteBuffer.allocate(4).putInt(command).array(), false);
@@ -186,12 +187,12 @@ public class EPD266B implements WaveShareDisplay {
 
 
     @Override
-    public void sendData(int data) throws IOException {
+    public void sendData(int data) throws IOException, NativeException {
         dc.write(State.HIGH);
         spiBus.sendByteData(ByteBuffer.allocate(1).put((byte) data).array(), false);
     }
 
-    private void showImage(DisplayBufferHolder bufferHolder) throws IOException {
+    private void showImage(DisplayBufferHolder bufferHolder) throws IOException, NativeException {
         var blackImageBuffer = bufferHolder.get(DisplayLayer.BLACK_AND_WHITE);
         if (blackImageBuffer == null) {
             throw new IOException("Black and white colored image is missing in buffer holder!");
@@ -217,7 +218,7 @@ public class EPD266B implements WaveShareDisplay {
     }
 
     @Override
-    public void show(DisplayBufferHolder bufferHolder) throws IOException {
+    public void show(DisplayBufferHolder bufferHolder) throws IOException, NativeException {
         var timeStart = Instant.now();
         logger.info("Showing image");
         showImage(bufferHolder);
@@ -226,7 +227,7 @@ public class EPD266B implements WaveShareDisplay {
     }
 
     @Override
-    public void clearDisplay() throws IOException {
+    public void clearDisplay() throws IOException, NativeException {
         var timeStart = Instant.now();
         logger.info("Clearing display");
         showImage(clearRectBufferHolder);

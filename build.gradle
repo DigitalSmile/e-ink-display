@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
     implementation 'org.slf4j:slf4j-api:2.0.9'
-    implementation 'com.github.DigitalSmile:gpio:v0.1.2'
+    implementation 'com.github.DigitalSmile:gpio:v0.2'
 
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
